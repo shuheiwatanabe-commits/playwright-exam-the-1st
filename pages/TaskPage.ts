@@ -5,6 +5,7 @@ export class TaskPage {
   readonly searchInput: Locator;
   readonly filterStatus: Locator;
   // TODO: 担当者フィルターのlocatorを追加する
+  readonly filterAssignee: Locator;
   readonly addTaskButton: Locator;
   readonly taskList: Locator;
   readonly emptyState: Locator;
@@ -14,6 +15,7 @@ export class TaskPage {
     this.searchInput   = page.getByTestId('search-input');
     this.filterStatus  = page.getByTestId('filter-status');
     // TODO: filter-assignee の locator を追加する
+    this.filterAssignee = page.getByTestId('filter-assignee');
     this.addTaskButton = page.getByTestId('add-task-btn');
     this.taskList      = page.getByTestId('task-list');
     this.emptyState    = page.locator('#empty-state');
@@ -34,6 +36,10 @@ export class TaskPage {
   // TODO: 担当者でフィルターするメソッドを追加する
   // filterByAssignee(assignee: string): Promise<void>
 
+  async filterByAssignee(assignee: string): Promise<void> {
+    await this.filterAssignee.selectOption(assignee);
+  }
+
   async getTaskCount(): Promise<number> {
     return await this.taskList.locator('[data-testid="task-card"]').count();
   }
@@ -49,8 +55,17 @@ export class TaskPage {
   // TODO: 担当者テキストを取得するメソッドを追加する
   // getTaskAssignee(id: number): Promise<string>
 
+
+  async getTaskAssignee(id: number): Promise<string> {
+    return await this.page.getByTestId(`task-assignee-${id}`).innerText();
+  }
+
   // TODO: メモテキストを取得するメソッドを追加する
   // getTaskMemo(id: number): Promise<string>
+
+  async getTaskMemo(id: number): Promise<string> {
+    return await this.page.getByTestId(`task-memo-${id}`).innerText();
+  }
 
   async clickEdit(id: number) {
     await this.page.getByTestId(`edit-btn-${id}`).click();

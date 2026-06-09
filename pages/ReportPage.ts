@@ -20,6 +20,7 @@ export class ReportPage {
   }
 
   async navigate() {
+    await this.page.waitForLoadState('networkidle');
     await this.page.getByTestId('nav-report').click();
   }
 
