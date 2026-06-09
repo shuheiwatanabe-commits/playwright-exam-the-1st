@@ -67,18 +67,10 @@ test.describe('③POM新規作成課題', () => {
     // Arrange: ページ遷移
     const passwordPage = new PasswordPage(page);
     await passwordPage.navigate();
-    
-    // Act: 間違ったパスワードで送信
     await passwordPage.changePassword('wrongpass', 'newPassword1', 'newPassword1');
-    
-    // Assert: エラーメッセージの可視化チェック
     await expect(passwordPage.currentWrongError).toBeVisible();
     expect(await passwordPage.isCurrentWrongErrorVisible()).toBe(true);
-    
-    // Act: キャンセルしてクリア
     await passwordPage.cancel();
-    
-    // Assert: フィールドが空に戻ったか検証
     await expect(passwordPage.currentInput).toHaveValue('');
     
     // Act: 短すぎるパスワードを入力して保存
